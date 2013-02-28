@@ -1,0 +1,18 @@
+{
+  "name": "crocodoc",
+  "version": "0.0.1",
+  "description": "Crocodoc API client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "crocodoc"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "superagent": "~0.12.4"
+  }
+}
