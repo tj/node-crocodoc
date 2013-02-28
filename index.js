@@ -16,7 +16,8 @@ function Client(key) {
 Client.prototype.url = function(url, fn){
   request
   .post(this.remote + '/document/upload')
-  .send({ url: url, token: this.key })
+  .type('form-data')
+  .send({ token: this.key, url: url })
   .end(function(err, res){
     if (err) return fn(err);
     if (res.error) return fn(new Error(res.body.error));
