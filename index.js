@@ -35,3 +35,21 @@ Client.prototype.status = function(id, fn){
     fn(null, res.body);
   });
 };
+
+Client.prototype.thumb = function(id, w, h, fn){
+  var size = w + 'x' + h;
+
+  request
+  .get(this.remote + '/download/thumbnail')
+  .query({ token: this.key, uuid: id, size: size })
+  .end(function(err, res){
+    if (err) return fn(err);
+    if (res.error) return fn(new Error(res.body.error));
+    var len = ~~res.header['content-length'];
+    var bufs = [];
+    res.on('data', function(chunk){ bufs.push(chunk) });
+    res.on('end', function(){
+      fn(null, Buffer.concat(bufs));
+    });
+  });
+};
