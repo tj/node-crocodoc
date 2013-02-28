@@ -24,3 +24,14 @@ Client.prototype.url = function(url, fn){
     fn(null, res.body);
   });
 };
+
+Client.prototype.status = function(id, fn){
+  request
+  .get(this.remote + '/document/status')
+  .query({ token: this.key, uuids: id })
+  .end(function(err, res){
+    if (err) return fn(err);
+    if (res.error) return fn(new Error(res.body.error));
+    fn(null, res.body);
+  });
+};
