@@ -36,6 +36,20 @@ Client.prototype.status = function(id, fn){
   });
 };
 
+Client.prototype.session = function(id, fn){
+  request
+  .post(this.remote + '/session/create')
+  .type('form-data')
+  .send({ token: this.key, uuid: id })
+  .end(function(err, res){
+    if (err) return fn(err);
+    if (res.error) return fn(new Error(res.body.error));
+    var body = res.body;
+    body.url = 'https://crocodoc.com/view/' + body.session;
+    fn(null, body);
+  });
+};
+
 Client.prototype.thumb = function(id, w, h, fn){
   var size = w + 'x' + h;
 
