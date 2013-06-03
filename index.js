@@ -36,11 +36,21 @@ Client.prototype.status = function(id, fn){
   });
 };
 
-Client.prototype.session = function(id, fn){
+Client.prototype.session = function(id, opts, fn){
+  var data = { token: this.key, uuid: id };
+
+  if ('function' == typeof opts) {
+    fn = opts;
+  } else if (opts) {
+    for (var i in opts) {
+      data[i] = opts[i];
+    }
+  }
+
   request
   .post(this.remote + '/session/create')
   .type('form-data')
-  .send({ token: this.key, uuid: id })
+  .send(data)
   .end(function(err, res){
     if (err) return fn(err);
     if (res.error) return fn(new Error(res.body.error));
@@ -61,7 +71,7 @@ Client.prototype.thumb = function(id, w, h, fn){
     if (res.error) return fn(new Error(res.body.error));
     var len = ~~res.header['content-length'];
     var bufs = [];
-    res.on('data', function(chunk){ bufs.push(chunk) });
+    res.on('data', function(chunk){ bufs.push(chunk); });
     res.on('end', function(){
       fn(null, Buffer.concat(bufs));
     });
