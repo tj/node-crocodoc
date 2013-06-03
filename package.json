@@ -1,6 +1,6 @@
 {
   "name": "crocodoc",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Crocodoc API client",
   "main": "index.js",
   "scripts": {
